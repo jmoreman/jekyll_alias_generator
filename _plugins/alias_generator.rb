@@ -40,13 +40,13 @@ module Jekyll
 
     def process_posts
       @site.posts.each do |post|
-        generate_aliases(post.url, post.data['alias'])
+        generate_aliases("#{@site.config['url']}#{post.url}", post.data['alias'])
       end
     end
 
     def process_pages
       @site.pages.each do |page|
-        generate_aliases(page.destination('').gsub(/index\.(html|htm)$/, ''), page.data['alias'])
+        generate_aliases("#{@site.config['url']}#{page.destination('').gsub(/index\.(html|htm)$/, '')}", page.data['alias'])
       end
     end
 
@@ -78,14 +78,14 @@ module Jekyll
 
     def alias_template(destination_path)
       <<-EOF
-      <!DOCTYPE html>
-      <html>
-      <head>
-      <link rel="canonical" href="#{destination_path}"/>
-      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-      <meta http-equiv="refresh" content="0;url=#{destination_path}" />
-      </head>
-      </html>
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="canonical" href="#{destination_path}"/>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="refresh" content="0;url=#{destination_path}" />
+</head>
+</html>
       EOF
     end
   end
